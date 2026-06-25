@@ -28,10 +28,14 @@ jobs:
         shell: bash
         run: |
           mkdir -p /c/GTK
+          # Mengunduh langsung dari mirror biner resmi node-canvas untuk Windows (Pasti Pas)
           curl -L -o gtk.zip https://github.com
-          tar -xf gtk.zip -C /c/GTK
+          # Menggunakan 7z bawaan Windows untuk mengekstrak file dengan aman
+          7z x gtk.zip -oC:\\GTK -y
+          7z x C:\\GTK\\*.tar -oC:\\GTK -y
           rm gtk.zip
           echo "C:\GTK\bin" >> $GITHUB_PATH
+
 
       - name: Download FFmpeg Static Build
         shell: bash
