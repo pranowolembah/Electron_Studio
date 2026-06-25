@@ -24,19 +24,14 @@ jobs:
         run: |
           npm install --global node-gyp
 
-            - name: Install GTK/Cairo Dependencies for Canvas
+      - name: Install GTK/Cairo Dependencies for Canvas
         shell: bash
         run: |
-          # Membuat folder GTK
           mkdir -p /c/GTK
-          # Menggunakan curl agar unduhan file zip berukuran besar jauh lebih stabil
           curl -L -o gtk.zip https://github.com
-          # Mengekstrak zip menggunakan utility tar bawaan windows runner (lebih cepat dan aman)
           tar -xf gtk.zip -C /c/GTK
           rm gtk.zip
-          # Menambahkan binary ke sistem PATH
           echo "C:\GTK\bin" >> $GITHUB_PATH
-
 
       - name: Download FFmpeg Static Build
         shell: bash
@@ -52,7 +47,6 @@ jobs:
 
       - name: Rebuild Native Modules (Canvas)
         shell: powershell
-        # Membantu node-gyp menemukan lokasi folder GTK/Cairo saat melakukan kompilasi ulang
         env:
           GTK_Root: C:\GTK
         run: npm run rebuild
