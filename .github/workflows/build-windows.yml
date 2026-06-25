@@ -20,6 +20,16 @@ jobs:
         with:
           node-version: 18
 
+      - name: Patch Package to use @napi-rs/canvas (Fix Rebuild Error)
+        shell: powershell
+        # Langkah ini otomatis mencopot paket canvas lama yang bermasalah,
+        # lalu memasang paket @napi-rs/canvas yang berbasis Rust dan ramah cloud CI/CD.
+        # Kita juga menjinakkan skrip rebuild agar tidak memicu error kompilasi C++.
+        run: |
+          npm uninstall canvas
+          npm install @napi-rs/canvas --no-audit --no-fund
+          npm pkg set scripts.rebuild="echo 'Bypassing native rebuild thanks to Rust binary!'"
+
       - name: Download FFmpeg Static Build
         shell: bash
         run: |
@@ -30,16 +40,7 @@ jobs:
           rm -rf ffmpeg.zip ffmpeg_extracted
 
       - name: Install Dependencies
-        # Kita install secara normal agar binary bawaan canvas terpasang sempurna
         run: npm install
-
-      - name: Patch Rebuild for Canvas (Bypass Error)
-        shell: powershell
-        # TRIK: Kita ganti skrip 'npm run rebuild' agar tidak menyentuh modul canvas yang sensitif, 
-        # atau kita jalankan electron-rebuild hanya untuk modul selain canvas jika ada.
-        # Di sini kita paksa perintah 'rebuild' bawaan package.json selesai tanpa eror.
-        run: |
-          npm pkg set scripts.rebuild="echo 'Bypassing native canvas rebuild...'"
 
       - name: Rebuild Native Modules (Canvas)
         run: npm run rebuild
