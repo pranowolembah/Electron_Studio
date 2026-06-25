@@ -1,0 +1,2 @@
+Folder ini akan terisi otomatis setelah menjalankan: npm run download-fonts
+Lihat README.md bagian "Setup" untuk detail & fallback manual.

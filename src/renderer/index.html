@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>Music Render Studio</title>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <div id="app">
+    <div class="topbar">
+      <div class="brand">🎬 Music Render Studio <span class="sub">Turbo FFmpeg Renderer</span></div>
+      <div id="toast"></div>
+    </div>
+
+    <div class="main">
+      <div class="leftpanel">
+        <div class="tabs" id="tabs">
+          <button data-tab="playlist" class="tab active">Playlist</button>
+          <button data-tab="background" class="tab">Latar</button>
+          <button data-tab="logo" class="tab">Logo</button>
+          <button data-tab="title" class="tab">Judul</button>
+          <button data-tab="subtitle" class="tab">Sub-judul</button>
+          <button data-tab="spectrum" class="tab">Spektrum</button>
+          <button data-tab="output" class="tab">Output</button>
+        </div>
+        <div class="panels" id="panels"><!-- filled by app.js --></div>
+      </div>
+
+      <div class="rightpanel">
+        <div class="hint">Drag logo / judul / sub-judul / spektrum langsung di preview untuk atur posisi.</div>
+        <div class="canvas-wrap">
+          <canvas id="previewCanvas"></canvas>
+        </div>
+        <audio id="audioEl" crossorigin="anonymous"></audio>
+
+        <div class="transport">
+          <button id="prevBtn">⏮</button>
+          <button id="playBtn">▶</button>
+          <button id="nextBtn">⏭</button>
+        </div>
+
+        <div id="stageBox" class="stagebox hidden">
+          <div id="stageLabel">...</div>
+          <div class="progressbar"><div id="progressFill"></div></div>
+          <div id="speedLabel" class="speedlabel"></div>
+        </div>
+
+        <div id="doneBox" class="donebox hidden"></div>
+
+        <button id="renderBtn" class="renderbtn">⚡ Render Video Turbo</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

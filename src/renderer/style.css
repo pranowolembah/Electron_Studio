@@ -1,0 +1,66 @@
+* { box-sizing: border-box; }
+body { margin:0; background:#09090b; color:#e4e4e7; font-family: Inter, "Segoe UI", sans-serif; overflow:hidden; }
+#app { display:flex; flex-direction:column; height:100vh; }
+
+.topbar { display:flex; align-items:center; justify-content:space-between; padding:10px 16px; border-bottom:1px solid #27272a; background:#111113; }
+.brand { font-weight:600; font-size:14px; }
+.brand .sub { color:#71717a; font-size:11px; margin-left:8px; font-weight:400; }
+#toast { color:#a3e635; font-size:12px; }
+
+.main { flex:1; display:flex; min-height:0; }
+
+.leftpanel { width:400px; border-right:1px solid #27272a; background:#0f0f11; display:flex; flex-direction:column; min-height:0; }
+.tabs { display:flex; flex-wrap:wrap; gap:4px; padding:8px; border-bottom:1px solid #27272a; }
+.tab { background:#27272a; color:#d4d4d8; border:none; border-radius:6px; padding:6px 10px; font-size:11px; cursor:pointer; }
+.tab.active { background:#7c3aed; color:white; }
+.panels { flex:1; overflow-y:auto; padding:14px; }
+.panel { display:none; flex-direction:column; gap:12px; }
+.panel.active { display:flex; }
+
+.field-label { font-size:11px; color:#a1a1aa; margin-bottom:6px; }
+.row { display:flex; gap:6px; flex-wrap:wrap; }
+.btn { background:#27272a; color:#d4d4d8; border:none; border-radius:6px; padding:6px 10px; font-size:11px; cursor:pointer; }
+.btn:hover { background:#3f3f46; }
+.btn.active { background:#7c3aed; color:white; }
+.btn-wide { flex:1; text-align:center; }
+input[type=text], textarea, select {
+  width:100%; background:#18181b; border:1px solid #3f3f46; color:#e4e4e7; border-radius:6px; padding:8px; font-size:12px;
+}
+textarea { resize:vertical; }
+input[type=range] { width:100%; accent-color:#7c3aed; }
+.minirange { display:flex; justify-content:space-between; font-size:11px; color:#a1a1aa; margin-bottom:2px; }
+.checkrow { display:flex; align-items:center; justify-content:space-between; font-size:12px; }
+.upload { border:1px dashed #3f3f46; border-radius:8px; text-align:center; padding:14px; cursor:pointer; font-size:12px; color:#a1a1aa; }
+.upload:hover { border-color:#7c3aed; }
+.note { font-size:10.5px; color:#71717a; line-height:1.4; }
+.colorpair { display:flex; align-items:center; gap:6px; font-size:12px; }
+
+.list-item { display:flex; align-items:center; gap:8px; background:#18181b; border-radius:6px; padding:6px 8px; font-size:12px; }
+.list-item.active { background:#3b1f7a55; border:1px solid #7c3aed88; }
+.list-item .name { flex:1; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.list-item .dur { color:#71717a; font-size:11px; }
+.list-item .del { cursor:pointer; color:#71717a; }
+.list-item .del:hover { color:#f87171; }
+
+.rightpanel { flex:1; display:flex; flex-direction:column; align-items:center; padding:18px 22px; gap:10px; overflow-y:auto; }
+.hint { font-size:11px; color:#71717a; }
+.canvas-wrap { background:black; border:1px solid #27272a; border-radius:10px; overflow:hidden; box-shadow:0 20px 50px -20px #7c3aed55; }
+#previewCanvas { display:block; cursor:move; }
+
+.transport { display:flex; gap:10px; }
+.transport button { background:#27272a; border:none; color:white; border-radius:999px; width:38px; height:38px; cursor:pointer; }
+#playBtn { background:#7c3aed; }
+
+.stagebox, .donebox { width:100%; max-width:900px; background:#111113; border:1px solid #3f3f46; border-radius:8px; padding:10px 14px; font-size:12px; }
+.donebox { border-color:#4d7c0f88; display:flex; justify-content:space-between; align-items:center; }
+.hidden { display:none; }
+.progressbar { height:8px; background:#27272a; border-radius:99px; overflow:hidden; margin-top:6px; }
+#progressFill { height:100%; width:0%; background:linear-gradient(90deg,#7c3aed,#d946ef); }
+.speedlabel { margin-top:4px; color:#a1a1aa; }
+
+.renderbtn {
+  width:100%; max-width:900px; padding:14px; border:none; border-radius:10px; font-weight:600; font-size:14px;
+  background:linear-gradient(90deg,#7c3aed,#d946ef); color:white; cursor:pointer;
+}
+.renderbtn.stop { background:#dc2626; }
+.openfolder { color:#a3e635; cursor:pointer; font-size:12px; text-decoration:underline; }

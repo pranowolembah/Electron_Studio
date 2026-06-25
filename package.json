@@ -1,0 +1,47 @@
+{
+  "name": "music-render-studio",
+  "productName": "Music Render Studio",
+  "version": "1.0.0",
+  "description": "Turbo desktop renderer for music playlist videos (FFmpeg + node-canvas, non-realtime render)",
+  "main": "src/main/main.js",
+  "author": "You",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "rebuild": "electron-rebuild -f -w canvas",
+    "download-fonts": "node scripts/download-fonts.js",
+    "dist:win": "electron-builder --win nsis",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "dependencies": {
+    "canvas": "^2.11.2",
+    "fft.js": "^4.0.4"
+  },
+  "devDependencies": {
+    "electron": "^30.0.0",
+    "electron-builder": "^24.13.3",
+    "@electron/rebuild": "^3.6.0"
+  },
+  "build": {
+    "appId": "com.yourname.musicrenderstudio",
+    "productName": "Music Render Studio",
+    "asar": true,
+    "files": [
+      "src/**/*",
+      "package.json"
+    ],
+    "extraResources": [
+      { "from": "resources/ffmpeg", "to": "ffmpeg", "filter": ["**/*"] },
+      { "from": "resources/fonts", "to": "fonts", "filter": ["**/*"] }
+    ],
+    "win": {
+      "target": ["nsis"],
+      "icon": "resources/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true
+    }
+  }
+}
