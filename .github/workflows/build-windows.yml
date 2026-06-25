@@ -19,7 +19,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: 'npm'
 
       - name: Install Python & Build Tools
         run: |
@@ -35,7 +34,7 @@ jobs:
           rm -rf ffmpeg.zip ffmpeg_extracted
 
       - name: Install Dependencies
-        run: npm ci
+        run: npm install
 
       - name: Rebuild Native Modules (Canvas)
         run: npm run rebuild
