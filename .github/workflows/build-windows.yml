@@ -24,6 +24,18 @@ jobs:
         run: |
           npm install --global node-gyp
 
+      - name: Install GTK/Cairo Dependencies for Canvas
+        shell: powershell
+        run: |
+          # Membuat folder target C:\GTK untuk pustaka canvas sesuai standar node-canvas Windows
+          New-Item -ItemType Directory -Force -Path C:\GTK
+          # Mengunduh paket biner GTK resmi yang dibutuhkan oleh node-canvas
+          Invoke-WebRequest -Uri "https://github.com" -OutFile gtk.zip
+          Expand-Archive -Path gtk.zip -DestinationPath C:\GTK -Force
+          Remove-Item gtk.zip
+          # Menambahkan binary GTK ke sistem PATH agar bisa dibaca oleh compiler
+          echo "C:\GTK\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+
       - name: Download FFmpeg Static Build
         shell: bash
         run: |
@@ -37,6 +49,10 @@ jobs:
         run: npm install --ignore-scripts
 
       - name: Rebuild Native Modules (Canvas)
+        shell: powershell
+        # Membantu node-gyp menemukan lokasi folder GTK/Cairo saat melakukan kompilasi ulang
+        env:
+          GTK_Root: C:\GTK
         run: npm run rebuild
 
       - name: Download Google Fonts
