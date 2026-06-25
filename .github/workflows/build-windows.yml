@@ -1,0 +1,58 @@
+name: Build Windows Installer
+
+on:
+  push:
+    branches:
+      - main # Jalankan otomatis setiap Anda push ke branch main
+  workflow_dispatch: # Memungkinkan Anda menjalankan build secara manual dari web GitHub
+
+jobs:
+  build:
+    runs-on: windows-latest # Menggunakan server Windows terbaru di cloud GitHub
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18 # Sesuai prasyarat di file MD Anda
+          cache: 'npm'
+
+      - name: Install Python & Build Tools
+        # GitHub Windows runner sudah menyertakan Python dan Visual Studio Build Tools C++ secara bawaan!
+        # Langkah ini hanya memastikan lingkungan siap untuk modul `canvas`.
+        run: |
+          npm install --global node-gyp
+
+      - name: Download FFmpeg Static Build
+        shell: bash
+        run: |
+          mkdir -p resources/ffmpeg
+          # Mengunduh ffmpeg full build dari gyan.dev sesuai rekomendasi file MD Anda
+          curl -L -o ffmpeg.zip https://gyan.dev
+          powershell Expand-Archive -Path ffmpeg.zip -DestinationPath ffmpeg_extracted
+          # Cari file ffmpeg.exe di dalam hasil ekstrak dan pindahkan ke folder resources
+          find ffmpeg_extracted -name "ffmpeg.exe" -exec cp {} resources/ffmpeg/ \;
+          rm -rf ffmpeg.zip ffmpeg_extracted
+
+      - name: Install Dependencies
+        run: npm ci # Menggunakan 'npm ci' agar instalasi bersih dan konsisten dengan package-lock.json
+
+      - name: Rebuild Native Modules (Canvas)
+        run: npm run rebuild
+
+      - name: Download Google Fonts
+        run: npm run download-fonts
+        continue-on-error: true # Berjaga-jaga jika script download font gagal agar build tidak langsung stop
+
+      - name: Build Windows Installer (.exe)
+        run: npm run dist:win
+
+      - name: Upload Installer Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Music-Render-Studio-Installer
+          path: dist/*.exe # Mengambil file installer dari folder dist untuk diunduh
+          if-no-files-found: error
