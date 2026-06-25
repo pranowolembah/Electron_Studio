@@ -34,7 +34,7 @@ jobs:
           rm -rf ffmpeg.zip ffmpeg_extracted
 
       - name: Install Dependencies
-        run: npm install
+        run: npm install --ignore-scripts
 
       - name: Rebuild Native Modules (Canvas)
         run: npm run rebuild
