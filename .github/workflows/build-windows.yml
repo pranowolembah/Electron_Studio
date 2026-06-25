@@ -24,17 +24,19 @@ jobs:
         run: |
           npm install --global node-gyp
 
-      - name: Install GTK/Cairo Dependencies for Canvas
-        shell: powershell
+            - name: Install GTK/Cairo Dependencies for Canvas
+        shell: bash
         run: |
-          # Membuat folder target C:\GTK untuk pustaka canvas sesuai standar node-canvas Windows
-          New-Item -ItemType Directory -Force -Path C:\GTK
-          # Mengunduh paket biner GTK resmi yang dibutuhkan oleh node-canvas
-          Invoke-WebRequest -Uri "https://github.com" -OutFile gtk.zip
-          Expand-Archive -Path gtk.zip -DestinationPath C:\GTK -Force
-          Remove-Item gtk.zip
-          # Menambahkan binary GTK ke sistem PATH agar bisa dibaca oleh compiler
-          echo "C:\GTK\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+          # Membuat folder GTK
+          mkdir -p /c/GTK
+          # Menggunakan curl agar unduhan file zip berukuran besar jauh lebih stabil
+          curl -L -o gtk.zip https://github.com
+          # Mengekstrak zip menggunakan utility tar bawaan windows runner (lebih cepat dan aman)
+          tar -xf gtk.zip -C /c/GTK
+          rm gtk.zip
+          # Menambahkan binary ke sistem PATH
+          echo "C:\GTK\bin" >> $GITHUB_PATH
+
 
       - name: Download FFmpeg Static Build
         shell: bash
