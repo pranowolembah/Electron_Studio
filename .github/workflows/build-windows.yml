@@ -24,18 +24,11 @@ jobs:
         run: |
           npm install --global node-gyp
 
-      - name: Install GTK/Cairo Dependencies for Canvas
-        shell: bash
+      - name: Install GTK/Cairo via Chocolatey
+        # Menggunakan manajer paket bawaan Windows Server untuk install secara resmi dan instan
         run: |
-          mkdir -p /c/GTK
-          # Mengunduh langsung dari mirror biner resmi node-canvas untuk Windows (Pasti Pas)
-          curl -L -o gtk.zip https://github.com
-          # Menggunakan 7z bawaan Windows untuk mengekstrak file dengan aman
-          7z x gtk.zip -oC:\\GTK -y
-          7z x C:\\GTK\\*.tar -oC:\\GTK -y
-          rm gtk.zip
-          echo "C:\GTK\bin" >> $GITHUB_PATH
-
+          choco install gtk-runtime -y --no-progress
+          echo "C:\Program Files\GTK-Runtime\bin" >> $env:GITHUB_PATH
 
       - name: Download FFmpeg Static Build
         shell: bash
@@ -52,7 +45,7 @@ jobs:
       - name: Rebuild Native Modules (Canvas)
         shell: powershell
         env:
-          GTK_Root: C:\GTK
+          GTK_Root: C:\Program Files\GTK-Runtime
         run: npm run rebuild
 
       - name: Download Google Fonts
